@@ -1,6 +1,6 @@
 package Term::ANSIColor::Print;
 
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 use strict;
 use warnings;
@@ -205,45 +205,333 @@ Term::ANSIColor::Print - Create and/or print strings with ANSI color markup.
 
   use Term::ANSIColor::Print;
 
-  my $pad = Term::ANSIColor::Print->new();
+  my $string = Term::ANSIColor::Print->new();
 
-  my $string = Term::ANSIColor::Print->new(
-      pad => $pad->on_dark_red(' '),
-  );
+  my $star  = $string->bold_white_on_blue('*');
+  my $blue  = $string->on_blue(' ');
+  my $white = $string->on_white(' ');
+  my $red   = $string->on_red(' ');
 
-  my $print = Term::ANSIColor::Print->new(
-      output => \*STDOUT,
-      eol    => "\n",
-  );
+  my $redbar   = join $red,   map { $red   } ( 0 .. 10 );
+  my $whitebar = join $white, map { $white } ( 0 .. 10 );
 
-  # concatenate padded with spaces on dark red background
-  my $colorful_text = $string->green_on_dark_red(
-      '',
-      'one',
-      $string->bold_underline_yellow_on_dark_cyan('two'),
-      $string->white_on_dark_green('three'),
-      'four',
-      '',
-  );
+  my $starbar_a = join $blue, map { $star } ( 0 .. 5 );
+  my $starbar_b = $blue . ( join $blue, map { $star } ( 0 .. 4 ) ) . $blue;
 
-  # print to STDOUT
-  $print->black_on_white( ' zero ' . $colorful_text . ' five ' );
+  my $old_glory = join "$starbar_b$whitebar\n", map { "$starbar_a$redbar\n" } ( 0 .. 2 );
 
-  # HTML approximation
+  $redbar   = $red   . join $red,   map { $red   } ( 0 .. 15 );
+  $whitebar = $white . join $white, map { $white } ( 0 .. 15 );
+
+  $old_glory .= join "$redbar\n", map { "$whitebar\n" } ( 0 .. 1 );
+  $old_glory .= "$redbar\n";
+
+  print "$old_glory\n";
+
+=head2 HTML approximation of the output
 
 =begin html
 
   <div style="background-color:black;padding:15px;width:50%;">
 
-  <table cellpadding="1" cellspacing="0"><tr>
-    <td style="color:black;background-color:white;">&nbsp;zero&nbsp;</td>
-    <td style="color:green;background-color:red;">&nbsp;one&nbsp;</td>
-    <td style="color:yellow;background-color:cyan;"><u><b>two</b></u></td>
+    <table cellpadding="2" cellspacing="0"><tr><td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
     <td style="background-color:red;">&nbsp;</td>
-    <td style="color:white;background-color:green;">three</td>
-    <td style="color:green;background-color:red;">&nbsp;four&nbsp;</td>
-    <td style="color:black;background-color:white;">&nbsp;five&nbsp;</td>
-  </tr></table>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    </tr>
+    <tr><td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    </tr>
+    <tr><td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:blue;">&nbsp;</td>
+    <td style="color:white;background-color:blue;"><b>*</b></td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    <td style="background-color:white;">&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    <td style="background-color:red;">&nbsp;</td>
+    </tr>
+    </table>
 
   </div>
 
