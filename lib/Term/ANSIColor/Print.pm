@@ -1,6 +1,6 @@
 package Term::ANSIColor::Print;
 
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 use strict;
 use warnings;
@@ -203,32 +203,178 @@ Term::ANSIColor::Print - Create and/or print strings with ANSI color markup.
 
 =head1 SYNOPSIS
 
+=head2 Checkers
+
+  use Term::ANSIColor::Print;
+
+  my $string = Term::ANSIColor::Print->new();
+
+  my $red    = $string->on_red('  ');
+  my $yellow = $string->on_yellow('  ');
+
+  my $red_pad    = Term::ANSIColor::Print->new( pad => $red );
+  my $yellow_pad = Term::ANSIColor::Print->new( pad => $yellow );
+
+  my $checkers_a = $red_pad->on_blue( map { $yellow } ( 0 .. 5 ) );
+  my $checkers_b = $yellow_pad->on_blue( map { $red } ( 0 .. 5 ) );
+
+  my $checker_board = Term::ANSIColor::Print->new(
+      pad    => "\n$checkers_a\n",
+      output => \*STDOUT,
+      eol    => "\n",
+  );
+
+  $checker_board->normal( map { $checkers_b } ( 0 .. 4 ) );
+
+=head3 HTML approximation of the output
+
+=begin html
+
+  <div style="background-color:black;padding:15px;width:50%;">
+
+    <table cellpadding="2" cellspacing="0">
+    <tr><td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    </tr>
+    <tr><td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    <td style="background-color:yellow;">&nbsp;&nbsp;</td>
+    <td style="background-color:red;">&nbsp;&nbsp;</td>
+    </tr>
+    </table>
+
+  </div>
+
+=end html
+
+=head2 Old Glory
+
   use Term::ANSIColor::Print;
 
   my $string = Term::ANSIColor::Print->new();
 
   my $star  = $string->bold_white_on_blue('*');
   my $blue  = $string->on_blue(' ');
-  my $white = $string->on_white(' ');
-  my $red   = $string->on_red(' ');
 
-  my $redbar   = join $red,   map { $red   } ( 0 .. 10 );
-  my $whitebar = join $white, map { $white } ( 0 .. 10 );
+  my $redbar   = $string->on_red( ' ' x 15 );
+  my $whitebar = $string->on_white( ' ' x 15 );
 
-  my $starbar_a = join $blue, map { $star } ( 0 .. 5 );
-  my $starbar_b = $blue . ( join $blue, map { $star } ( 0 .. 4 ) ) . $blue;
+  my $blue_pad = Term::ANSIColor::Print->new( pad => $blue );
+  my $star_pad = Term::ANSIColor::Print->new( pad => $star );
+
+  my $starbar_a = $blue_pad->on_blue( map { $star } ( 0 .. 5 ) );
+  my $starbar_b = $star_pad->on_blue( map { $blue } ( 0 .. 5 ) );
 
   my $old_glory = join "$starbar_b$whitebar\n", map { "$starbar_a$redbar\n" } ( 0 .. 2 );
 
-  $redbar   = $red   . join $red,   map { $red   } ( 0 .. 15 );
-  $whitebar = $white . join $white, map { $white } ( 0 .. 15 );
+  $redbar   = $string->on_red( ' ' x 26 );
+  $whitebar = $string->on_white( ' ' x 26 );
 
-  $old_glory .= join "$redbar\n", map { "$whitebar\n" } ( 0 .. 1 );
-  $old_glory .= "$redbar\n";
+  $old_glory .= join "\n", map { "$whitebar\n$redbar" } ( 0 .. 1 );
 
   print "$old_glory\n";
 
-=head2 HTML approximation of the output
+=head3 HTML approximation of the output
 
 =begin html
 

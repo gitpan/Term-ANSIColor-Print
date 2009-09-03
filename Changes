@@ -1,5 +1,9 @@
 Revision history for Perl extension Term::ANSIColor::Print.
 
+0.03  Wed Sep 02 23:58:24 2009
+    - Added checkerboard sample
+    - Updated old glory sample
+
 0.02  Tue Sep 01 23:32:09 2009
     - Much sweeter sample program outputs Old Glory
 
