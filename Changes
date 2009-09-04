@@ -1,5 +1,9 @@
 Revision history for Perl extension Term::ANSIColor::Print.
 
+0.04  Thu Sep 03 18:21:55 2009
+    - Refinements to examples
+    - Unlimited length method parsing
+
 0.03  Wed Sep 02 23:58:24 2009
     - Added checkerboard sample
     - Updated old glory sample

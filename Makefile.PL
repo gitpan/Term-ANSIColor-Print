@@ -9,6 +9,6 @@ WriteMakefile(
         Readonly => 0,
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM  => 'lib/Term/ANSIColor/Print.pm', # retrieve abstract from module
+      (ABSTRACT_FROM  => 'lib/Term/ANSIColor/Print.pod', # retrieve abstract from module
        AUTHOR         => 'Dylan Doxey <dylan.doxey@gmail.com>') : ()),
 );
