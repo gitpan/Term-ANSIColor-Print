@@ -5,25 +5,64 @@ Term::ANSIColor::Print - Create and/or print strings with ANSI color markup.
 
 =head1 SYNOPSIS
 
+=head2 Basic usage
+
+  use Term::ANSIColor::Print;
+
+  my $print = Term::ANSIColor::Print->new();
+
+  $print->green('go!');
+
+  $print->red('stop!');
+
+  my @words = qw( one two three );
+  $print->yellow(\@words);
+  $print->yellow(@words);
+
+=head2 Color aliases
+
+  use Term::ANSIColor::Print;
+
+  my $print = Term::ANSIColor::Print->new(
+      alias => {
+          good => 'green',
+          bad  => 'red',
+      },
+  );
+
+  $print->good('happy new year!');
+
+  $print->bad('there has been a disturbance in the force');
+
 =head2 Checkers
 
   use Term::ANSIColor::Print;
 
-  my $string = Term::ANSIColor::Print->new();
+  my $string = Term::ANSIColor::Print->new(
+      output => 'return',
+      eol    => '',
+  );
 
   my $red   = $string->on_red('  ');
   my $white = $string->on_white('  ');
 
-  my $red_pad   = Term::ANSIColor::Print->new( pad => $red );
-  my $white_pad = Term::ANSIColor::Print->new( pad => $white );
+  my $red_pad = Term::ANSIColor::Print->new(
+      pad    => $red,
+      output => 'return',
+      eol    => '',
+  );
+
+  my $white_pad = Term::ANSIColor::Print->new(
+      pad    => $white,
+      output => 'return',
+      eol    => '',
+  );
 
   my $checkers_a = $red_pad->normal( map { $white } ( 0 .. 5 ) );
   my $checkers_b = $white_pad->normal( map { $red } ( 0 .. 5 ) );
 
   my $checker_board = Term::ANSIColor::Print->new(
-      pad    => "\n$checkers_a\n",
-      output => \*STDOUT,
-      eol    => "\n",
+      pad => "\n$checkers_a\n",
   );
 
   $checker_board->normal( map { $checkers_b } ( 0 .. 4 ) );
@@ -153,13 +192,24 @@ Term::ANSIColor::Print - Create and/or print strings with ANSI color markup.
 
   use Term::ANSIColor::Print;
 
-  my $string = Term::ANSIColor::Print->new();
+  my $string = Term::ANSIColor::Print->new(
+      output => 'return',
+      eol    => '',
+  );
 
-  my $star  = $string->bold_white_on_blue('*');
-  my $blue  = $string->on_blue(' ');
+  my $star = $string->bold_white_on_blue('*');
+  my $blue = $string->on_blue(' ');
 
-  my $blue_pad = Term::ANSIColor::Print->new( pad => $blue );
-  my $star_pad = Term::ANSIColor::Print->new( pad => $star );
+  my $blue_pad = Term::ANSIColor::Print->new(
+      output => 'return',
+      pad    => $blue,
+      eol    => '',
+  );
+  my $star_pad = Term::ANSIColor::Print->new(
+      output => 'return',
+      pad    => $star,
+      eol    => '',
+  );
 
   my $starbar_a = $blue_pad->normal( map { $star } ( 0 .. 5 ) );
   my $starbar_b = $star_pad->normal( map { $blue } ( 0 .. 5 ) );
@@ -172,8 +222,6 @@ Term::ANSIColor::Print - Create and/or print strings with ANSI color markup.
 
   my $old_glory = Term::ANSIColor::Print->new(
       pad    => "\n",
-      output => \*STDOUT,
-      eol    => "\n",
   );
 
   $old_glory->normal(
@@ -544,17 +592,17 @@ Term::ANSIColor::Print - Create and/or print strings with ANSI color markup.
   <div style="background-color:black;padding:15px;width:50%;">
 
     <table cellpadding="2" cellspacing="0" width="275">
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2009 : 082&#176;F</td><td><span style="color:black;background-color:yellow;">&nbsp;-----------------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2008 : 077&#176;F</td><td><span style="color:black;background-color:yellow;">&nbsp;------------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2007 : 084&#176;F</td><td><span style="color:black;background-color:yellow;">&nbsp;-------------------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2006 : 077&#176;F</td><td><span style="color:black;background-color:yellow;">&nbsp;------------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2005 : 072&#176;F</td><td><span style="color:black;background-color:yellow;">&nbsp;-------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2004 : 077&#176;F</td><td><span style="color:black;background-color:yellow;">&nbsp;------------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2003 : 075&#176;F</td><td><span style="color:black;background-color:yellow;">&nbsp;----------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2002 : 081&#176;F</td><td><span style="color:black;background-color:yellow;">&nbsp;----------------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2001 : 072&#176;F</td><td><span style="color:black;background-color:yellow;">&nbsp;-------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2000 : 075&#176;F</td><td><span style="color:black;background-color:yellow;">&nbsp;----------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/1999 : 069&#176;F</td><td><span style="color:black;background-color:yellow;">&nbsp;----&gt;&nbsp;</span></td></tr> 
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2009 : 082&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;-----------------&gt;&nbsp;</span></td></tr> 
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2008 : 077&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;------------&gt;&nbsp;</span></td></tr> 
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2007 : 084&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;-------------------&gt;&nbsp;</span></td></tr> 
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2006 : 077&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;------------&gt;&nbsp;</span></td></tr> 
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2005 : 072&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;-------&gt;&nbsp;</span></td></tr> 
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2004 : 077&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;------------&gt;&nbsp;</span></td></tr> 
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2003 : 075&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;----------&gt;&nbsp;</span></td></tr> 
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2002 : 081&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;----------------&gt;&nbsp;</span></td></tr> 
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2001 : 072&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;-------&gt;&nbsp;</span></td></tr> 
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2000 : 075&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;----------&gt;&nbsp;</span></td></tr> 
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/1999 : 069&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;----&gt;&nbsp;</span></td></tr> 
       <tr><td style="color:white;font-family:courier new;">...</td><td>&nbsp;</td></tr>
     </table>
   </div>

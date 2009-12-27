@@ -10,7 +10,10 @@ BEGIN { use_ok('Term::ANSIColor::Print') };
 
 #########################
 
-my $p = Term::ANSIColor::Print->new();
+my $p = Term::ANSIColor::Print->new(
+    output => 'return',
+    eol    => '',
+);
 
 my $s = $p->green_on_white('x');
 

@@ -1,6 +1,6 @@
 package Term::ANSIColor::Print;
 
-$VERSION = '0.04';
+$VERSION = '0.05';
 
 use strict;
 use warnings;
@@ -99,13 +99,20 @@ my ($COLOR_REGEX,$SUB_COLOR_REGEX,%ANSI_CODE_FOR);
 
 sub new {
     my $class = shift;
-    my %args = @_;
+    my %args  = @_;
 
     my $self = bless {
-        output => $args{output} || 'return',
-        eol    => $args{eol}    || "",
-        pad    => $args{pad}    || "",
+        output => defined $args{output} ? $args{output} : \*STDOUT,
+        eol    => defined $args{eol}    ? $args{eol}    : "\n",
+        pad    => defined $args{pad}    ? $args{pad}    : "",
+        alias  => defined $args{alias}  ? $args{alias}  : {},
     }, $class;
+
+    delete @args{qw( output eol pad alias )};
+
+    for my $arg ( keys %args ) {
+        warn "unrecognized argument $arg";
+    }
 
     return $self;
 }
@@ -122,6 +129,10 @@ sub AUTOLOAD {
 
     TOK:
     for my $token (@tokens) {
+
+        if ( exists $self->{alias}->{$token} ) {
+            $token = $self->{alias}->{$token};
+        }
 
         my $code = $code_for_rh->{$token};
 
@@ -145,6 +156,8 @@ sub AUTOLOAD {
     }
 
     my @color_strings;
+
+    @strings = map { ref $_ eq 'ARRAY' ? @{ $_ } : $_ } @strings;
 
     for my $string ( @strings ) {
 
