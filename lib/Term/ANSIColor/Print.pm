@@ -1,9 +1,10 @@
 package Term::ANSIColor::Print;
 
-$VERSION = '0.05';
+$VERSION = '0.06';
 
 use strict;
 use warnings;
+use Carp;
 use vars qw( $AUTOLOAD );
 
 my ($COLOR_REGEX,$SUB_COLOR_REGEX,%ANSI_CODE_FOR);
@@ -120,7 +121,30 @@ sub new {
 sub AUTOLOAD {
     my ($self,@strings) = @_;
 
-    my @tokens = split /_/, ( split /::/, $AUTOLOAD )[-1];
+    my $method_call = ( split /::/, $AUTOLOAD )[-1];
+
+    ALIAS:
+    while ( my ( $alias, $token ) = each %{ $self->{alias} } ) {
+
+        if ( $token !~ m{\A \w+ \z}xms ) {
+            carp "alias '$alias': token '$token' is invalid\n";
+            next ALIAS;
+        }
+
+        if ( $alias !~ m{\A \w+ \z}xms ) {
+            carp "alias key '$alias' is a invalid\n";
+            next ALIAS;
+        }
+
+        $method_call =~ s{$alias}{$token}g;
+    }
+
+    my $eol 
+        = $method_call =~ s{ _+ \z}{}xms
+        ? "" 
+        : $self->{eol};
+
+    my @tokens = split /_/, $method_call;
 
     my $color_start = "";
     my $color_end   = "\x{1B}[0m";
@@ -129,10 +153,6 @@ sub AUTOLOAD {
 
     TOK:
     for my $token (@tokens) {
-
-        if ( exists $self->{alias}->{$token} ) {
-            $token = $self->{alias}->{$token};
-        }
 
         my $code = $code_for_rh->{$token};
 
@@ -148,7 +168,7 @@ sub AUTOLOAD {
                 redo TOK;
             }
 
-            warn "unrecognized token: $token";
+            carp "unrecognized token: $token";
             next TOK;
         }
 
@@ -196,7 +216,7 @@ sub AUTOLOAD {
         push @color_strings, $string;
     }
 
-    $strings[-1] .= $self->{eol};
+    $strings[-1] .= $eol;
 
     my $string = join $self->{pad}, @strings;
 

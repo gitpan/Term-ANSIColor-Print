@@ -25,14 +25,27 @@ Term::ANSIColor::Print - Create and/or print strings with ANSI color markup.
 
   my $print = Term::ANSIColor::Print->new(
       alias => {
-          good => 'green',
-          bad  => 'red',
+          good => 'white_on_green',
+          bad  => 'yellow_on_red',
       },
   );
 
   $print->good('happy new year!');
 
   $print->bad('there has been a disturbance in the force');
+
+  # omit traling line break with trailing _
+
+  $print->normal_( "performing activity ... " );
+
+  if ( perform_activity() ) {
+
+      $print->good('OK!');
+  }
+  else {
+
+      $print->bad('disapointment');
+  }
 
 =head2 Checkers
 
@@ -554,10 +567,10 @@ Term::ANSIColor::Print - Create and/or print strings with ANSI color markup.
   my $string = Term::ANSIColor::Print->new();
 
   my $max_temp_regex = qr{
-      <td [^>]* > \s* 
-          <span>Max \s Temperature</span> \s* 
+      <td [^>]* > \s*
+          <span>Max \s Temperature</span> \s*
       </td> \s*
-      <td> \s* 
+      <td> \s*
           (?: <span [^>]* > \s* <span [^>]* >( \d+ )</span> | - )
   }xms;
 
@@ -592,17 +605,17 @@ Term::ANSIColor::Print - Create and/or print strings with ANSI color markup.
   <div style="background-color:black;padding:15px;width:50%;">
 
     <table cellpadding="2" cellspacing="0" width="275">
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2009 : 082&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;-----------------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2008 : 077&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;------------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2007 : 084&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;-------------------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2006 : 077&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;------------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2005 : 072&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;-------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2004 : 077&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;------------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2003 : 075&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;----------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2002 : 081&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;----------------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2001 : 072&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;-------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2000 : 075&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;----------&gt;&nbsp;</span></td></tr> 
-      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/1999 : 069&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;----&gt;&nbsp;</span></td></tr> 
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2009 : 082&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;-----------------&gt;&nbsp;</span></td></tr>
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2008 : 077&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;------------&gt;&nbsp;</span></td></tr>
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2007 : 084&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;-------------------&gt;&nbsp;</span></td></tr>
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2006 : 077&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;------------&gt;&nbsp;</span></td></tr>
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2005 : 072&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;-------&gt;&nbsp;</span></td></tr>
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2004 : 077&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;------------&gt;&nbsp;</span></td></tr>
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2003 : 075&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;----------&gt;&nbsp;</span></td></tr>
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2002 : 081&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;----------------&gt;&nbsp;</span></td></tr>
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2001 : 072&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;-------&gt;&nbsp;</span></td></tr>
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/2000 : 075&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;----------&gt;&nbsp;</span></td></tr>
+      <tr><td style="color:white;white-space:pre;font-family:courier new;">08/31/1999 : 069&#176;F</td><td><span style="color:black;background-color:yellow;white-space:pre;">&nbsp;----&gt;&nbsp;</span></td></tr>
       <tr><td style="color:white;font-family:courier new;">...</td><td>&nbsp;</td></tr>
     </table>
   </div>

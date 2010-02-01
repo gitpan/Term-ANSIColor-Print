@@ -1,5 +1,10 @@
 Revision history for Perl extension Term::ANSIColor::Print.
 
+0.06  Sun Jan 31 15:39:59 2010
+    - trailing _ omits the eol
+    - carp instead of warn about unknown tokens
+    - multi-token aliases
+
 0.05  Sun Dec 27 10:09:37 2009
     - Changed default options: eol => "\n", output => \*STDOUT
     - Added alias option
@@ -16,6 +21,6 @@ Revision history for Perl extension Term::ANSIColor::Print.
     - Much sweeter sample program outputs Old Glory
 
 0.01  Mon Aug 31 21:59:54 2009
-	- original version; created by h2xs 1.23 with options
-		-XA -n Term::ANSIColor::Print
+    - original version; created by h2xs 1.23 with options
+    -XA -n Term::ANSIColor::Print
 
