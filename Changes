@@ -1,5 +1,8 @@
 Revision history for Perl extension Term::ANSIColor::Print.
 
+0.07  Sat Nov 21 13:35:50 2010
+    - print with no arg just prints eol value
+
 0.06  Sun Jan 31 15:39:59 2010
     - trailing _ omits the eol
     - carp instead of warn about unknown tokens
