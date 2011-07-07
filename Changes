@@ -1,5 +1,8 @@
 Revision history for Perl extension Term::ANSIColor::Print.
 
+0.08  Wed Jul 06 18:31:22 2011
+    - updated dependency list
+
 0.07  Sat Nov 21 13:35:50 2010
     - print with no arg just prints eol value
 

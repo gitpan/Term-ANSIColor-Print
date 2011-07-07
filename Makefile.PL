@@ -6,7 +6,7 @@ WriteMakefile(
     NAME              => 'Term::ANSIColor::Print',
     VERSION_FROM      => 'lib/Term/ANSIColor/Print.pm', # finds $VERSION
     PREREQ_PM         => {
-        Readonly => 0,
+        Readonly => '1.02',
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/Term/ANSIColor/Print.pod', # retrieve abstract from module
